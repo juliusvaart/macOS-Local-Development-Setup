@@ -1,3 +1,5 @@
+Upgraded from <a href="https://github.com/renekreijveld/macOS-Local-Development-Setup">https://github.com/renekreijveld/macOS-Local-Development-Setup</a>
+
 # macOS Local Development Setup
 
 After my MAMP PRO setup became very unstable I decided to setup my local development environment different.
