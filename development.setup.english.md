@@ -58,7 +58,7 @@ Test Apache by going in your browser to: http://localhost:8080
 
 ## Create a folder for your website projects
 
-In my setup I put my website projects in my home folder submap Development/_sites so we need to create a folder for that.
+In my setup I put my website projects in my home Dropbox dir ~/Dropbox/Development/_sites but create it wherever you like.
 
 ```
 mkdir -p ~/Dropbox/Development/_sites
@@ -92,8 +92,7 @@ DocumentRoot "/usr/local/var/www"
 With:
 
 ```
-DocumentRoot /Users/your_user/Development/Sites (so WITHOUT quotes)
-```
+DocumentRoot "/Users/your_user/Dropbox/Development/_sites"
 
 (input your user name at 'your_user')
 
@@ -106,7 +105,7 @@ Replace:
 With:
 
 ```
-<Directory "/Users/your_user/Development/Sites"> (so WITH quotes)
+<Directory "/Users/your_user/Dropbox/Development/_sites">
 ```
 
 (input your user name at 'your_user')
@@ -479,13 +478,13 @@ Remove all existing lines below the comments block and add the following lines:
 
 ```
 <VirtualHost *:80>
-    DocumentRoot "/Users/your_user/Development/Sites"
+    DocumentRoot "/Users/your_user/Dropbox/Development/_sites"
     ServerName localhost
     ErrorLog "/usr/local/var/log/httpd/error_log"
     CustomLog "/usr/local/var/log/httpd/access_log" common
 </VirtualHost>
 
-<Directory "/Users/your_user/Development/Sites">
+<Directory "/Users/your_user/Dropbox/Development/_sites">
     Allow From All
     AllowOverride All
     Options +Indexes
@@ -493,7 +492,7 @@ Remove all existing lines below the comments block and add the following lines:
 </Directory>
 
 <Virtualhost *:80>
-    VirtualDocumentRoot "/Users/your_user/Development/Sites/%1"
+    VirtualDocumentRoot "/Users/your_user/Dropbox/Development/_sites/%1"
     ServerAlias *.localhost
     UseCanonicalName Off
 </Virtualhost>
