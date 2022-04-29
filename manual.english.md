@@ -52,13 +52,15 @@ restartdev
 
 ## PHP
 
+(replace "< version >" with required PHP-version, 8.1 for example)
+
 ### php.ini location
 
 ```
-code /usr/local/etc/php/<version>/php.ini
+code /usr/local/etc/php/< version >/php.ini
 ```
 
-### Switch to php <version>:
+### Switch to php < version >:
 
 ```
 sphp <version>

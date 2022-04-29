@@ -196,10 +196,10 @@ brew tap shivammathur/php
 Install the PHP versions you need:
 
 ```
-brew install shivammathur/php/php@<version>
+brew install shivammathur/php/php@< version >
 ```
 
-(replace <version> with required PHP-version, 8.1 for example)
+(replace "< version >" with required PHP-version, 8.1 for example)
 
 # Modify PHP.ini
 
@@ -229,10 +229,10 @@ If your system doesn't have a php.ini for PHP 5.6, you can grab a copy here: <a 
 Modify php.ini for each PHP version:
 
 ```
-code /usr/local/etc/php/<version>/php.ini
+code /usr/local/etc/php/< version >/php.ini
 ```
 
-(replace <version> with required PHP-version, 8.1 for example)
+(replace "< version >" with required PHP-version, 8.1 for example)
 
 Restart Apache after the php.ini modifications:
 
@@ -243,10 +243,10 @@ brew services restart httpd
 Switch back yo the first PHP version
 
 ```
-brew unlink php && brew link --overwrite --force php@<version>
+brew unlink php && brew link --overwrite --force php@< version >
 ```
 
-(replace <version> with required PHP-version, 8.1 for example)
+(replace "< version >" with required PHP-version, 8.1 for example)
 
 Open new terminal window and close current one or:
 
@@ -277,20 +277,20 @@ Below this add the following libphp modules (for you selected PHP versions):
 
 For PHP 5.*
 ```
-#LoadModule php5_module /usr/local/opt/php@<version>/lib/httpd/modules/libphp5.so
+#LoadModule php5_module /usr/local/opt/php@< version >/lib/httpd/modules/libphp5.so
 ```
 
 For PHP 7.*
 ```
-#LoadModule php7_module /usr/local/opt/php@<version>/lib/httpd/modules/libphp7.so
+#LoadModule php7_module /usr/local/opt/php@< version >/lib/httpd/modules/libphp7.so
 ```
 
 Fot PHP 8.*
 ```
-#LoadModule php_module /usr/local/opt/php@<version>/lib/httpd/modules/libphp.so
+#LoadModule php_module /usr/local/opt/php@< version >/lib/httpd/modules/libphp.so
 ```
 
-(replace <version> with required PHP-version, 8.1 for example)
+(replace "< version >" with required PHP-version, 8.1 for example)
 
 Replace:
 
@@ -341,10 +341,10 @@ chmod +x /usr/local/bin/sphp
 Test the switcher script:
 
 ```
-sphp <version>
+sphp < version >
 ```
 
-(replace <version> with required PHP-version, 8.1 for example)
+(replace "< version >" with required PHP-version, 8.1 for example)
 
 Refresh the page <a href="http://localhost/info.php" target="_blank">http://localhost/info.php</a> in your browser.
 
@@ -559,7 +559,7 @@ pecl install <extension>
 To have PHP run faster we install APCu Cache. Zend OPcache was already installed with the PHP installation.
 
 ```
-sphp 5.6
+sphp < version >
 brew install autoconf
 ```
 
@@ -573,7 +573,7 @@ pecl install apcu-4.0.11
 Answer any question by simply pressing Return to accept the default values.
 
 ```
-code /usr/local/etc/php/<version>/conf.d/ext-apcu.ini
+code /usr/local/etc/php/< version >/conf.d/ext-apcu.ini
 ```
 
 Put the following contents in that file:
@@ -597,14 +597,14 @@ brew services restart httpd
 ## APCu Configuration for PHP 7.0 and above:
 
 ```
-sphp <version>
+sphp < version >
 pecl install apcu
 ```
 
 Answer any question by simply pressing Return to accept the default values.
 
 ```
-code /usr/local/etc/php/<version>/php.ini
+code /usr/local/etc/php/< version >/php.ini
 ```
 
 Delete the line
@@ -616,7 +616,7 @@ extension="apcu.so"
 that was added at the top of php.ini. Save and close php.ini. Then create a new separate .ini file for APCu:
 
 ```
-code /usr/local/etc/php/<version>/conf.d/ext-apcu.ini
+code /usr/local/etc/php/< version >/conf.d/ext-apcu.ini
 ```
 
 Put the following contents in that file:
@@ -674,7 +674,7 @@ In your browser go to http://localhost/info.php to ensure that XDebug is install
 ## Xdebug Configuration for PHP 7.0 and above:
 
 ```
-sphp <version>
+sphp < version >
 pecl install xdebug
 ```
 
