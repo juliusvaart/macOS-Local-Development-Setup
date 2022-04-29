@@ -11,6 +11,13 @@ This setup works fine on my macOS machines. I am certainly no Apache, PHP and My
 
 <a href="https://getgrav.org/blog/macos-monterey-apache-multiple-php-versions" target="_blank">macOS 12.0 Monterey Apache Setup: Multiple PHP Versions</a>
 
+
+# Different paths for Intel and ARM
+
+Intel binaries: /usr/local/...
+ARM binaries: /opt/homebrew/...
+
+
 # First install XCode Command Line Tools
 
 ```
@@ -30,6 +37,11 @@ xcode-select --install
 brew install wget openssl
 ```
 
+Export OpenSSL path:
+```
+echo 'export PATH="/opt/homebrew/opt/openssl@3/bin:$PATH"' >> ~/.zshrc
+```
+
 ## Apache installation
 
 ### Stop existing Apache and install Homebrew version
@@ -40,7 +52,7 @@ sudo launchctl unload -w /System/Library/LaunchDaemons/org.apache.httpd.plist 2>
 brew install httpd
 ```
 
-Hoembrew Apache defaults so it starts at every (re)boot of your machine after the following command:
+Homebrew Apache defaults so it starts at every (re)boot of your machine after the following command:
 
 ```
 brew services start httpd
@@ -69,6 +81,7 @@ mkdir -p ~/Dropbox/Development/_sites
 
 ```
 code /usr/local/etc/httpd/httpd.conf
+code /opt/homebrew/etc/httpd/httpd.conf
 ```
 
 Replace:
@@ -87,6 +100,7 @@ Replace:
 
 ```
 DocumentRoot "/usr/local/var/www"
+DocumentRoot "/opt/homebrew/var/www"
 ```
 
 With:
@@ -101,6 +115,7 @@ Replace:
 
 ```
 <Directory "/usr/local/var/www">
+<Directory "/opt/homebrew/var/www">
 ```
 
 With:
@@ -169,12 +184,11 @@ With:
 ServerName localhost
 ```
 
-Save the file /usr/local/etc/httpd/httpd.conf
 
 ### Create a standard index.html
 
 ```
-echo "<h1>My User Web Root</h1>" > ~/Development/Sites/index.html
+echo "<h1>Local Dev Web Root</h1>" > ~/Dropbox/Development/_sites/index.html
 ```
 
 ### Restart Apache
@@ -184,6 +198,7 @@ brew services restart httpd
 ```
 
 In your browser go to http://localhost, there the My User Web Root should appear.
+
 
 # PHP Installation
 
@@ -201,6 +216,7 @@ brew install shivammathur/php/php@< version >
 
 (replace "< version >" with required PHP-version, 8.1 for example)
 
+
 # Modify PHP.ini
 
 To have webapplications work well we need to modify a number of php.ini settings.
@@ -211,25 +227,18 @@ For display_errors you might want make an exception and leave that to 'On', but 
 ```
 output_buffering = Off
 max_execution_time = 300
-max_input_time = 300
+max_input_time = 600
 memory_limit = -1
 post_max_size = 64M
 upload_max_filesize = 64M
 date.timezone = Europe/Amsterdam
 ```
 
-Modify php.ini PHP 5.6:
-
-```
-code /usr/local/etc/php/5.6/php.ini
-```
-
-If your system doesn't have a php.ini for PHP 5.6, you can grab a copy here: <a href="https://gist.github.com/renekreijveld/a01e42bc288be56ee81cec5411c72575" target="_blank">php.ini for local development PHP 5.6</a>.
-
 Modify php.ini for each PHP version:
 
 ```
 code /usr/local/etc/php/< version >/php.ini
+code /opt/homebrew/etc/php/< version >/php.ini
 ```
 
 (replace "< version >" with required PHP-version, 8.1 for example)
@@ -267,6 +276,7 @@ php -v
 
 ```
 code /usr/local/etc/httpd/httpd.conf
+code /opt/homebrew/etc/httpd/httpd.conf
 ```
 
 Find the line that loads the mod_rewrite module:
@@ -335,6 +345,11 @@ To easily switch between PHP versions we install a PHP switcher script.
 curl -L https://gist.githubusercontent.com/rhukster/f4c04f1bf59e0b74e335ee5d186a98e2/raw/adc8c149876bff14a33e3ac351588fdbe8172c07/sphp.sh > /usr/local/bin/sphp
 chmod +x /usr/local/bin/sphp
 ```
+or
+```
+curl -L https://gist.githubusercontent.com/rhukster/f4c04f1bf59e0b74e335ee5d186a98e2/raw/adc8c149876bff14a33e3ac351588fdbe8172c07/sphp.sh > /opt/homebrew/bin/sphp
+chmod +x /opt/homebrew/bin/sphp
+```
 
 ### Testing the PHP Switching
 
@@ -395,6 +410,7 @@ MariaDB [(none)]> exit
 
 ```
 /usr/local/bin/mysql_secure_installation
+/opt/homebrew/bin/mysql_secure_installation
 ```
 
 Answers:
@@ -424,11 +440,13 @@ brew services stop mariadb
 Move data-dir to Dropbox
 ```
 mv /usr/local/var/mysql /Users/your_user/Dropbox/Development/_mysql
+mv /opt/homebrew/var/mysql /Users/your_user/Dropbox/Development/_mysql
 ```
 
 Symlink data dir
 ```
 ln -s /Users/your_user/Dropbox/Development/_mysql /usr/local/var/mysql
+ln -s /Users/your_user/Dropbox/Development/_mysql /opt/homebrew/var/mysql
 ```
 
 Start MariaDB:
@@ -443,36 +461,27 @@ brew services stop mariadb
 
 ```
 code /usr/local/etc/httpd/httpd.conf
+code /opt/homebrew/etc/httpd/httpd.conf
 ```
 
-Replace:
+Uncomment:
 
 ```
 #LoadModule vhost_alias_module lib/httpd/modules/mod_vhost_alias.so
 ```
 
-With:
-
-```
-LoadModule vhost_alias_module lib/httpd/modules/mod_vhost_alias.so
-```
-
-Replace:
+Uncomment on of the two:
 
 ```
 #Include /usr/local/etc/httpd/extra/httpd-vhosts.conf
-```
-
-With:
-
-```
-Include /usr/local/etc/httpd/extra/httpd-vhosts.conf
+#Include /opt/homebrew/etc/httpd/extra/httpd-vhosts.conf
 ```
 
 Modify httpd-vhosts.conf:
 
 ```
 code /usr/local/etc/httpd/extra/httpd-vhosts.conf
+code /opt/homebrew/etc/httpd/extra/httpd-vhosts.conf
 ```
 
 Remove all existing lines below the comments block and add the following lines:
@@ -517,6 +526,7 @@ Setup *.localhost hosts:
 
 ```
 echo 'address=/.localhost/127.0.0.1' >> /usr/local/etc/dnsmasq.conf
+echo 'address=/.localhost/127.0.0.1' >> /opt/homebrew/etc/dnsmasq.conf
 ```
 
 Start Dnsmasq and make sure it starts at every reboot:
@@ -529,7 +539,7 @@ Add to resolvers:
 
 ```
 sudo mkdir -v /etc/resolver
-sudo bash -c 'echo "nameserver 127.0.0.1" > /etc/resolver/test'
+sudo bash -c 'echo "nameserver 127.0.0.1" > /etc/resolver/localhost'
 ```
 
 Test this by pinging to an unknown .localhost name. There should come a reply from 127.0.0.1:
@@ -538,10 +548,10 @@ Test this by pinging to an unknown .localhost name. There should come a reply fr
 ping newwebsite.localhost
 ```
 
-Restart apache:
+Restart dnsmasq:
 
 ```
-brew services restart httpd
+sudo brew services restart dnsmasq
 ```
 
 
@@ -559,8 +569,8 @@ pecl install <extension>
 To have PHP run faster we install APCu Cache. Zend OPcache was already installed with the PHP installation.
 
 ```
-sphp < version >
 brew install autoconf
+sphp < version >
 ```
 
 When we have installed autoconf we can install APCu via PECL. PECL is a PHP package manager that is now the preferred way to install PHP packages.
@@ -597,6 +607,7 @@ brew services restart httpd
 ## APCu Configuration for PHP 7.0 and above:
 
 ```
+brew install autoconf
 sphp < version >
 pecl install apcu
 ```
@@ -605,6 +616,7 @@ Answer any question by simply pressing Return to accept the default values.
 
 ```
 code /usr/local/etc/php/< version >/php.ini
+code /opt/homebrew/etc/php/< version >/php.ini
 ```
 
 Delete the line
@@ -617,6 +629,7 @@ that was added at the top of php.ini. Save and close php.ini. Then create a new 
 
 ```
 code /usr/local/etc/php/< version >/conf.d/ext-apcu.ini
+code /opt/homebrew/etc/php/< version >/conf.d/ext-apcu.ini
 ```
 
 Put the following contents in that file:
@@ -644,10 +657,17 @@ sphp 5.6
 pecl install xdebug-2.5.5
 ```
 
+Delete the line
+
+```
+zend_extension = "xdebug.so"
+```
+
 Create a new config file for XDebug:
 
 ```
-code /usr/local/etc/php/5.6/conf.d/ext-xdebug.ini
+code /usr/local/etc/php/< version >/conf.d/ext-xdebug.ini
+code /opt/homebrew/etc/php/< version >/conf.d/ext-xdebug.ini
 ```
 
 And add the following to it:
@@ -681,13 +701,21 @@ pecl install xdebug
 You will now need to remove the zend_extension="xdebug.so"" entry that PECL adds to the top of your php.ini. So edit this file and remove the top line:
 
 ```
-code /usr/local/etc/php/7.2/php.ini
+code /usr/local/etc/php/< version >/conf.d/ext-xdebug.ini
+code /opt/homebrew/etc/php/< version >/conf.d/ext-xdebug.ini
+```
+
+Delete the line
+
+```
+zend_extension = "xdebug.so"
 ```
 
 Create a new config file for XDebug:
 
 ```
-code /usr/local/etc/php/7.2/conf.d/ext-xdebug.ini
+code /usr/local/etc/php/< version >/conf.d/ext-xdebug.ini
+code /opt/homebrew/etc/php/< version >/conf.d/ext-xdebug.ini
 ```
 
 And add the following to it:
@@ -742,6 +770,7 @@ For starting, stopping and restarting Apache and MySQL I use these three simple 
 
 ```
 code /usr/local/bin/startdev
+code /opt/homebrew/bin/startdev
 ```
 
 Add the following code:
@@ -766,6 +795,7 @@ brew services start mailhog
 
 ```
 code /usr/local/bin/stopdev
+code /opt/homebrew/bin/stopdev
 ```
 
 Add the following code:
@@ -790,6 +820,7 @@ brew services stop mailhog
 
 ```
 code /usr/local/bin/restartdev
+code /opt/homebrew/bin/restartdev
 ```
 
 Add the following code:
@@ -814,4 +845,5 @@ brew services restart mailhog
 
 ```
 chmod +x /usr/local/bin/startdev /usr/local/bin/stopdev /usr/local/bin/restartdev
+chmod +x /opt/homebrew/bin/startdev /opt/homebrew/bin/stopdev /opt/homebrew/bin/restartdev
 ```
