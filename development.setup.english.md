@@ -93,6 +93,7 @@ With:
 
 ```
 DocumentRoot "/Users/your_user/Dropbox/Development/_sites"
+```
 
 (input your user name at 'your_user')
 
@@ -110,7 +111,7 @@ With:
 
 (input your user name at 'your_user')
 
-In the same <Directory ...> block:
+In the same <Directory> block:
 
 Replace:
 
