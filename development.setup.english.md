@@ -140,17 +140,12 @@ With:
 AllowOverride All
 ```
 
-Search for:
+Uncomment:
 
 ```
 #LoadModule rewrite_module lib/httpd/modules/mod_rewrite.so
 ```
 
-And replace with:
-
-```
-LoadModule rewrite_module lib/httpd/modules/mod_rewrite.so (so remove #)
-```
 
 ### Modify User & Group
 
@@ -169,6 +164,7 @@ Group staff
 ```
 
 (input your user name at 'your_user')
+
 
 ### Setup servername
 
@@ -288,16 +284,19 @@ Below this add the following libphp modules (for you selected PHP versions):
 For PHP 5.*
 ```
 #LoadModule php5_module /usr/local/opt/php@< version >/lib/httpd/modules/libphp5.so
+#LoadModule php7_module /opt/homebrew/opt/php@< version >/lib/httpd/modules/libphp7.so
 ```
 
 For PHP 7.*
 ```
 #LoadModule php7_module /usr/local/opt/php@< version >/lib/httpd/modules/libphp7.so
+#LoadModule php7_module /opt/homebrew/opt/php@< version >/lib/httpd/modules/libphp7.so
 ```
 
-Fot PHP 8.*
+For PHP 8.*
 ```
 #LoadModule php_module /usr/local/opt/php@< version >/lib/httpd/modules/libphp.so
+#LoadModule php_module /opt/homebrew/opt/php@< version >/lib/httpd/modules/libphp.so
 ```
 
 (replace "< version >" with required PHP-version, 8.1 for example)
@@ -485,6 +484,8 @@ code /opt/homebrew/etc/httpd/extra/httpd-vhosts.conf
 ```
 
 Remove all existing lines below the comments block and add the following lines:
+
+**Important: change "/usr/local/" to "/opt/homebrew/" on ARM like Apple M1!**
 
 ```
 <VirtualHost *:80>
@@ -680,6 +681,8 @@ xdebug.remote_autostart = 1
 xdebug.remote_host = localhost
 xdebug.remote_handler = dbgp
 xdebug.remote_port = 9000
+xdebug.remote_host = 172.17.0.1
+xdebug.log_level = 0
 ```
 
 Restart apache:
@@ -726,6 +729,8 @@ zend_extension = "xdebug.so"
 xdebug.mode = debug
 xdebug.start_with_request = yes
 xdebug.client_port = 9000
+xdebug.client_host = 172.17.0.1
+xdebug.log_level = 0
 ```
 
 Restart apache:
