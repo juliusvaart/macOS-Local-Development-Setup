@@ -740,6 +740,16 @@ brew services restart httpd
 ```
 
 
+# PHP extensions
+
+From: https://github.com/kabel/homebrew-php-ext
+
+```
+brew tap kabel/php-ext
+brew install php@8.1-imap
+```
+
+
 # Mailhog
 
 MailHog is a small application which intercepts email sent out of your sites and keeps it locally. You can use a web interface to review the mail. This comes in handy when testing the email features of the sites you are building without risking any email accidentally escaping to the wild.
