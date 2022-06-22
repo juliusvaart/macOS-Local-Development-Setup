@@ -854,6 +854,16 @@ brew services restart mariadb
 brew services restart mailhog
 ```
 
+### startdev, stopdev, restartdev bonus
+
+Add something like Solr to the mix:
+
+```
+# Start Solr
+/Users/your_user/Dropbox/Development/Solr/solr-7.7.1/bin/solr start
+```
+
+
 ## Modify file rights:
 
 ```
