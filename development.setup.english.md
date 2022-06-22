@@ -681,7 +681,6 @@ xdebug.remote_autostart = 1
 xdebug.remote_host = localhost
 xdebug.remote_handler = dbgp
 xdebug.remote_port = 9000
-xdebug.remote_host = 172.17.0.1
 xdebug.log_level = 0
 ```
 
@@ -729,7 +728,6 @@ zend_extension = "xdebug.so"
 xdebug.mode = debug
 xdebug.start_with_request = yes
 xdebug.client_port = 9000
-xdebug.client_host = 172.17.0.1
 xdebug.log_level = 0
 ```
 
