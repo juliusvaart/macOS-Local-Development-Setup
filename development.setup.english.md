@@ -792,7 +792,7 @@ Add the following code:
 #!/bin/bash
 
 # Start Dnsmasq
-sudo brew services start dnsmasq
+brew services start dnsmasq
 
 # Start Apache
 brew services start httpd
@@ -817,7 +817,7 @@ Add the following code:
 #!/bin/bash
 
 # Stop Dnsmasq
-sudo brew services stop dnsmasq
+brew services stop dnsmasq
 
 # Stop Apache
 brew services stop httpd
@@ -842,7 +842,7 @@ Add the following code:
 #!/bin/bash
 
 # Restart Dnsmasq
-sudo brew services restart dnsmasq
+brew services restart dnsmasq
 
 # Restart Apache
 brew services restart httpd
