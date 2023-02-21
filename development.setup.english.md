@@ -703,8 +703,8 @@ pecl install xdebug
 You will now need to remove the zend_extension="xdebug.so"" entry that PECL adds to the top of your php.ini. So edit this file and remove the top line:
 
 ```
-code /usr/local/etc/php/< version >/conf.d/ext-xdebug.ini
-code /opt/homebrew/etc/php/< version >/conf.d/ext-xdebug.ini
+code /usr/local/etc/php/< version >/php.ini
+code /opt/homebrew/etc/php/< version >/php.ini
 ```
 
 Delete the line
