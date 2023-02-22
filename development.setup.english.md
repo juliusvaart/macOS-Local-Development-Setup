@@ -350,6 +350,15 @@ curl -L https://gist.githubusercontent.com/rhukster/f4c04f1bf59e0b74e335ee5d186a
 chmod +x /opt/homebrew/bin/sphp
 ```
 
+### Edit the switcher script for extra PHP-versions
+
+```
+code /usr/local/bin/sphp
+code /opt/homebrew/bin/sphp
+```
+Add PHP-versions to lines 12 and 13.
+
+
 ### Testing the PHP Switching
 
 Test the switcher script:
@@ -558,7 +567,7 @@ sudo brew services restart dnsmasq
 
 # PHP extensions
 
-From: https://github.com/shivammathur/homebrew-extensions
+See https://github.com/shivammathur/homebrew-extensions for all the extensions.
 
 ```
 brew tap shivammathur/extensions
@@ -576,33 +585,24 @@ pecl install <extension>
 ```
 
 
-## APCu Configuration for PHP 5.*
-
-To have PHP run faster we install APCu Cache. Zend OPcache was already installed with the PHP installation.
+## APCu Configuration:
 
 ```
+sphp < php-version >
 brew install autoconf
-sphp < version >
+brew install shivammathur/extensions/apcu@< php-version >
 ```
 
-When we have installed autoconf we can install APCu via PECL. PECL is a PHP package manager that is now the preferred way to install PHP packages.
+Edit the created APCu extension ini:
 
 ```
-pecl channel-update pecl.php.net
-pecl install apcu-4.0.11
+code /usr/local/etc/php/< php-version >/conf.d/20-apcu.ini
+code /opt/homebrew/etc/php/< php-version >/conf.d/20-apcu.ini
 ```
 
-Answer any question by simply pressing Return to accept the default values.
+Add the following to that file:
 
 ```
-code /usr/local/etc/php/< version >/conf.d/ext-apcu.ini
-```
-
-Put the following contents in that file:
-
-```
-[apcu]
-extension="apcu.so"
 apc.enabled=1
 apc.shm_size=64M
 apc.ttl=7200
@@ -616,77 +616,31 @@ brew services restart httpd
 ```
 
 
-## APCu Configuration for PHP 7.0 and above:
+## Xdebug Configuration:
 
 ```
-brew install autoconf
-sphp < version >
-pecl install apcu
+sphp < php-version >
+brew install shivammathur/extensions/xdebug@< php-version >
 ```
 
-Answer any question by simply pressing Return to accept the default values.
+Edit the config file for XDebug:
 
 ```
-code /usr/local/etc/php/< version >/php.ini
-code /opt/homebrew/etc/php/< version >/php.ini
+code /usr/local/etc/php/< php-version >/conf.d/20-xdebug.ini
+code /opt/homebrew/etc/php/< php-version >/conf.d/20-xdebug.ini
 ```
 
-Delete the line
+And add the following to it for PHP7/8 and above:
 
 ```
-extension="apcu.so"
+xdebug.mode = debug
+xdebug.start_with_request = yes
+xdebug.client_port = 9000
+xdebug.log_level = 0
 ```
 
-that was added at the top of php.ini. Save and close php.ini. Then create a new separate .ini file for APCu:
-
+Add the following for PHP5:
 ```
-code /usr/local/etc/php/< version >/conf.d/ext-apcu.ini
-code /opt/homebrew/etc/php/< version >/conf.d/ext-apcu.ini
-```
-
-Put the following contents in that file:
-
-```
-[apcu]
-extension="apcu.so"
-apc.enabled=1
-apc.shm_size=64M
-apc.ttl=7200
-apc.enable_cli=1
-```
-
-Save and close the file and restart Apache:
-
-```
-brew services restart httpd
-```
-
-
-## XDebug Configuration for PHP 5.*:
-
-```
-sphp 5.6
-pecl install xdebug-2.5.5
-```
-
-Delete the line
-
-```
-zend_extension = "xdebug.so"
-```
-
-Create a new config file for XDebug:
-
-```
-code /usr/local/etc/php/< version >/conf.d/ext-xdebug.ini
-code /opt/homebrew/etc/php/< version >/conf.d/ext-xdebug.ini
-```
-
-And add the following to it:
-
-```
-[xdebug]
-zend_extension = "xdebug.so"
 xdebug.remote_enable = 1
 xdebug.remote_autostart = 1
 xdebug.remote_host = localhost
@@ -701,55 +655,8 @@ Restart apache:
 brew services restart httpd
 ```
 
-In your browser go to http://localhost/info.php to ensure that XDebug is installed.
 
-
-## Xdebug Configuration for PHP 7.0 and above:
-
-```
-sphp < version >
-pecl install xdebug
-```
-
-You will now need to remove the zend_extension="xdebug.so"" entry that PECL adds to the top of your php.ini. So edit this file and remove the top line:
-
-```
-code /usr/local/etc/php/< version >/php.ini
-code /opt/homebrew/etc/php/< version >/php.ini
-```
-
-Delete the line
-
-```
-zend_extension = "xdebug.so"
-```
-
-Create a new config file for XDebug:
-
-```
-code /usr/local/etc/php/< version >/conf.d/ext-xdebug.ini
-code /opt/homebrew/etc/php/< version >/conf.d/ext-xdebug.ini
-```
-
-And add the following to it:
-
-```
-[xdebug]
-zend_extension = "xdebug.so"
-xdebug.mode = debug
-xdebug.start_with_request = yes
-xdebug.client_port = 9000
-xdebug.log_level = 0
-```
-
-Restart apache:
-
-```
-brew services restart httpd
-```
-
-
-# Mailhog
+# Optional: Mailhog
 
 MailHog is a small application which intercepts email sent out of your sites and keeps it locally. You can use a web interface to review the mail. This comes in handy when testing the email features of the sites you are building without risking any email accidentally escaping to the wild.
 
