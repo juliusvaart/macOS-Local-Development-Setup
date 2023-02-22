@@ -635,7 +635,7 @@ And add the following to it for PHP7/8 and above:
 ```
 xdebug.mode = debug
 xdebug.start_with_request = yes
-xdebug.client_port = 9000
+xdebug.client_port = 9003
 xdebug.log_level = 0
 ```
 
@@ -645,7 +645,7 @@ xdebug.remote_enable = 1
 xdebug.remote_autostart = 1
 xdebug.remote_host = localhost
 xdebug.remote_handler = dbgp
-xdebug.remote_port = 9000
+xdebug.remote_port = 9003
 xdebug.log_level = 0
 ```
 
