@@ -556,6 +556,17 @@ sudo brew services restart dnsmasq
 ```
 
 
+# PHP extensions
+
+From: https://github.com/shivammathur/homebrew-extensions
+
+```
+brew tap shivammathur/extensions
+brew install shivammathur/extensions/xdebug@8.1
+brew install shivammathur/extensions/imap@8.1
+```
+
+
 # PECL extensions
 
 Install PECL-extensions by switching to PHP version and run:
@@ -735,16 +746,6 @@ Restart apache:
 
 ```
 brew services restart httpd
-```
-
-
-# PHP extensions
-
-From: https://github.com/kabel/homebrew-php-ext
-
-```
-brew tap kabel/php-ext
-brew install php@8.1-imap
 ```
 
 
