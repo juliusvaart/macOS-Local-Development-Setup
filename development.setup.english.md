@@ -700,7 +700,7 @@ Add the following code:
 #!/bin/bash
 
 # Start Dnsmasq
-brew services start dnsmasq
+sudo brew services start dnsmasq
 
 # Start Apache
 brew services start httpd
@@ -725,7 +725,7 @@ Add the following code:
 #!/bin/bash
 
 # Stop Dnsmasq
-brew services stop dnsmasq
+sudo brew services stop dnsmasq
 
 # Stop Apache
 brew services stop httpd
@@ -750,7 +750,7 @@ Add the following code:
 #!/bin/bash
 
 # Restart Dnsmasq
-brew services restart dnsmasq
+sudo brew services restart dnsmasq
 
 # Restart Apache
 brew services restart httpd
